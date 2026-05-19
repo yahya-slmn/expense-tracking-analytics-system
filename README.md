@@ -1,16 +1,26 @@
+<div align="center">
+
 # Expense Tracking Analytics System
 
-A full-stack analytics application built using Python, FastAPI, Streamlit, and MySQL to manage expenses, automate analytics workflows, and visualize financial trends through interactive dashboards.
+Full-stack analytics application for expense management, financial tracking, and interactive dashboard reporting using Python technologies.
 
-The project combines backend API development with frontend data visualization to simulate a real-world analytics and reporting solution.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=streamlit)](YOUR_STREAMLIT_LINK)
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
+</div>
 
 ---
 
 # Project Overview
 
-This project was developed to demonstrate end-to-end analytics application development using Python technologies.
+This project was developed to demonstrate end-to-end analytics application development using Python, FastAPI, Streamlit, and MySQL.
 
 The system allows users to:
+
 - Add and update expense records
 - Analyze monthly spending trends
 - Visualize category-level financial insights
@@ -65,11 +75,19 @@ expense-tracking-analytics-system/
 │   ├── logging_setup.py
 │   └── server.py
 │
+├── data/
+│   └── sample_expenses.csv
+│
 ├── frontend/
 │   ├── add_update.py
 │   ├── analytics_by_category.py
 │   ├── analytics_by_months.py
-│   └── app.py
+│   ├── app.py
+│   │
+│   └── api_version/
+│       ├── add_update_api.py
+│       ├── analytics_by_category_api.py
+│       └── analytics_by_months_api.py
 │
 ├── screenshots/
 │   ├── dashboard_overview.png
@@ -91,12 +109,10 @@ expense-tracking-analytics-system/
 
 # System Architecture
 
-```txt
-Streamlit Frontend
-        ↓
-FastAPI REST API
-        ↓
-MySQL Database
+```mermaid
+graph TD
+    A[Streamlit Frontend] --> B[FastAPI Backend]
+    B --> C[MySQL Database]
 ```
 
 ---
@@ -205,6 +221,7 @@ http://localhost:8501
 # API Workflow
 
 The application uses FastAPI REST endpoints to:
+
 - Retrieve expense data
 - Update expense records
 - Process monthly analytics
@@ -216,20 +233,30 @@ The Streamlit frontend communicates with the backend using Python requests.
 
 # Future Improvements
 
-- User authentication system
+- User authentication & authorization
 - Cloud database deployment
 - Docker containerization
-- Advanced analytics dashboard
-- Budget forecasting features
-- Export reports functionality
+- AI-powered spending insights
+- Budget forecasting & anomaly detection
+- Exportable PDF financial reports
+- Role-based dashboard access
+- Real-time analytics monitoring
 
 ---
 
-## Live Demo Note
+# Live Demo Note
 
 The live Streamlit demo uses sample CSV data for public portfolio viewing.
 
 The repository also includes the original FastAPI backend and MySQL integration to demonstrate the full-stack architecture used in local development.
+
+---
+
+# Connect With Me
+
+- LinkedIn: https://www.linkedin.com/in/yahya-sleiman-6b742a356
+- Portfolio: YOUR_PORTFOLIO_URL
+- GitHub: https://github.com/yahya-slmn
 
 ---
 
@@ -241,7 +268,7 @@ Data Analyst | BI Developer | Python Analytics Enthusiast
 
 ---
 
-# Disclaimer
+# Repository Notes
 
 This repository is intended for educational and portfolio purposes.
 
