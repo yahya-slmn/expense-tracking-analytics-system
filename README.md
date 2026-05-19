@@ -225,6 +225,14 @@ The Streamlit frontend communicates with the backend using Python requests.
 
 ---
 
+## Live Demo Note
+
+The live Streamlit demo uses sample CSV data for public portfolio viewing.
+
+The repository also includes the original FastAPI backend and MySQL integration to demonstrate the full-stack architecture used in local development.
+
+---
+
 # Author
 
 ## Yahya Sleiman

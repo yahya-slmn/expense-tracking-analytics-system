@@ -1,32 +1,33 @@
 import streamlit as st
-from datetime import datetime
-import requests
 import pandas as pd
 import calendar
+import os
 
-API_URL = "http://localhost:8000"
-
+DATA_PATH = os.path.join("data", "sample_expenses.csv")
 
 def analytics_months_tab():
+
     st.title("Expense Breakdown By Months")
-    responses = requests.get(f"{API_URL}/analytics_by_months/")
 
-    if responses.status_code == 200:
-        response = responses.json()
-        # st.write(response)
-    else:
-        st.error("No expense data available")
+    df = pd.read_csv(DATA_PATH)
 
-    data = {
-        "Month Name": [calendar.month_name[item["month"]] for item in response],
-        "Total": [item["total_expense"] for item in response]
-    }
+    df["expense_date"] = pd.to_datetime(df["expense_date"])
 
-    df = pd.DataFrame(data)
-    chart_df = df.copy()  # keep numbers
-    df.index = [item["month"] for item in response]
-    df["Total"] = df["Total"].map("{:.2f}".format)
+    df["month"] = df["expense_date"].dt.month
 
-    st.bar_chart(data=chart_df.set_index("Month Name")['Total'], use_container_width=True)
+    grouped = df.groupby("month")["amount"].sum().reset_index()
 
-    st.table(df)
+    grouped["Month Name"] = grouped["month"].apply(lambda x: calendar.month_name[x])
+
+    chart_df = grouped.copy()
+
+    grouped["amount"] = grouped["amount"].map("{:.2f}".format)
+
+    st.bar_chart(
+        chart_df.set_index("Month Name")["amount"],
+        use_container_width=True
+    )
+
+    grouped.columns = ["Month", "Total", "Month Name"]
+
+    st.table(grouped[["Month Name", "Total"]])

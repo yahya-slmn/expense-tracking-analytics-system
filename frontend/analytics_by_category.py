@@ -1,39 +1,49 @@
 import streamlit as st
 from datetime import datetime
-import requests
 import pandas as pd
+import os
 
-
-API_URL = "http://localhost:8000"
+DATA_PATH = os.path.join("data", "sample_expenses.csv")
 
 def analytics_category_tab():
+
+    df = pd.read_csv(DATA_PATH)
+
+    df["expense_date"] = pd.to_datetime(df["expense_date"])
+
     col1, col2 = st.columns(2)
+
     with col1:
         start_date = st.date_input("Start Date", datetime(2024, 8, 1))
+
     with col2:
-        end_date = st.date_input("End Date", datetime(2024, 8, 5))
+        end_date = st.date_input("End Date", datetime(2024, 9, 30))
 
     if st.button("Get Analytics"):
-        payload = {
-            "start_date": start_date.strftime("%Y-%m-%d"),
-            "end_date": end_date.strftime("%Y-%m-%d")
-        }
 
-        response = requests.post(f"{API_URL}/analytics", json=payload)
-        response = response.json()
+        filtered_df = df[
+            (df["expense_date"] >= pd.to_datetime(start_date)) &
+            (df["expense_date"] <= pd.to_datetime(end_date))
+        ]
 
-        data = {
-            "Category": list(response.keys()),
-            "Total": [response[category]["total"] for category in response],
-            "Percentage": [response[category]["percentage"] for category in response]
-        }
-        df = pd.DataFrame(data)
-        df_sorted = df.sort_values(by=["Percentage"], ascending=False)
+        grouped = filtered_df.groupby("category")["amount"].sum().reset_index()
+
+        total_expense = grouped["amount"].sum()
+
+        grouped["percentage"] = (grouped["amount"] / total_expense) * 100
+
+        grouped = grouped.sort_values(by="percentage", ascending=False)
 
         st.title("Expense Breakdown By Category")
 
-        st.bar_chart(data = df_sorted.set_index("Category")['Percentage'], use_container_width = True)
+        st.bar_chart(
+            grouped.set_index("category")["percentage"],
+            use_container_width=True
+        )
 
-        df_sorted["Total"] = df_sorted["Total"].map("{:.2f}".format)
-        df_sorted["Percentage"] = df_sorted["Percentage"].map("{:.2f}".format)
-        st.table(df_sorted)
+        grouped["amount"] = grouped["amount"].map("{:.2f}".format)
+        grouped["percentage"] = grouped["percentage"].map("{:.2f}".format)
+
+        grouped.columns = ["Category", "Total", "Percentage"]
+
+        st.table(grouped)
