@@ -255,7 +255,7 @@ The repository also includes the original FastAPI backend and MySQL integration 
 # Connect With Me
 
 - LinkedIn: https://www.linkedin.com/in/yahya-sleiman-6b742a356
-<!--- Portfolio: YOUR_PORTFOLIO_URL-->
+-  Portfolio: https://yahya-datafolio.netlify.app/
 - GitHub: https://github.com/yahya-slmn
 
 ---
